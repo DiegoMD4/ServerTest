@@ -4,7 +4,7 @@ const cors = require('cors');
 
 app.use('/images',express.static(__dirname +'/uploads'));
 
-app.set('port',process.env.port || 3055);
+app.set('port',process.env.port || 5000);
 app.set('json spaces',2);
 app.use(express.json());
 app.use(cors());
