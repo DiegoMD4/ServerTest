@@ -7,7 +7,6 @@
     "start": "node index.js",
     "dev": "env-cmd --file ./.env.development nodemon index.js",
     "prod": "env-cmd --file ./.env.production nodemon index.js"
-  
   },
   "author": "",
   "license": "ISC",
