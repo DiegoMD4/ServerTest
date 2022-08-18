@@ -39,8 +39,8 @@ CREATE TABLE Postulacion(
 	redesSociales tinyint, --si o no
 	rubro tinyint, -- de la tabla rubo
 	expectativas tinyint, -- de la tabla expectativas
-	fechaCreado datetime;
-	fechaCerrado datetime;
+	fechaCreado datetime,
+	fechaCerrado datetime,
 	estado tinyint --de la tabla estado
 );
 
