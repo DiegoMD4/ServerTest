@@ -2,7 +2,7 @@ const express= require('express');
 const router= express.Router();
 const config= require('../lib/config');
 const sql = require('mssql');
-const PostModule = require('../class/Post')
+const PostModule = require('../class/post')
 
 router.get('/post',async(req,res)=>{
     try {
