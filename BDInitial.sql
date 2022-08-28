@@ -13,7 +13,8 @@ CREATE TABLE Post(
 	imagenEncabezado varchar(200),
 	cuerpo ntext,
 	usuarioCreador int,
-	fechaCreado datetime 
+	fechaCreado datetime, 
+	proyecto VARCHAR(100)
 );
 
 CREATE TABLE Evento(
@@ -75,4 +76,12 @@ CREATE TABLE Contactanos(
 	nombre varchar(50),
 	email varchar(70),
 	telefono varchar(20),
+);
+
+CREATE TABLE Integrantes (
+  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [nombre] varchar(100),
+  [correo] nvarchar(255),
+  [proyecto] nvarchar(255) 
+  
 );
