@@ -2,32 +2,37 @@ const express = require("express");
 const router = express.Router();
 const config = require("../lib/config");
 const sql = require("mssql");
-const EventosModule = require("../class/Evento");
+const IntegrantesModule = require("../class/Integrantes");
 
-router.get("/eventos", async (req, res) => { //get all
+router.get("/casos/:idproyecto/integrantes", async (req, res) => { //get all
   try {
     let data = { ...req.body, ...req.params };
-    let eventos = new EventosModule(data);
+    let integrantes = new IntegrantesModule(data);
+    console.log(integrantes.idproyecto)
     let pool = await sql.connect(config);
-    let response = await pool.request().query(eventos.queryGet);
+    let response = await pool.request()
+    .input('idproyecto', sql.Int, integrantes.idproyecto) 
+    .query(integrantes.queryGet);
+
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
     }
-    res.status(200).json(response.recordsets);
+    res.status(200).json(...response.recordsets);
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
     res.status(400).json({ error: `Hay clavo tio ${error}` });
   }
 });
 
-router.get("/eventos/:id", async (req, res) => {// get by id
+router.get("/casos/:idproyecto/integrantes/:id", async (req, res) => {// get by id
   try {
     let data = { ...req.body, ...req.params };
-    let eventos = new EventosModule(data);
+    let integrantes = new IntegrantesModule(data);
     let pool = await sql.connect(config) 
     let response = await pool.request()
-      .input("id", sql.Int, eventos.id)
-      .query(eventos.queryGetById);
+    .input('idproyecto', sql.Int, data.idproyecto)  
+    .input("id", sql.Int, integrantes.id)
+    .query(integrantes.queryGetById);
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
     }
@@ -38,19 +43,17 @@ router.get("/eventos/:id", async (req, res) => {// get by id
   }
 });
 
-router.post("/eventos", async (req, res) => {
+router.post("/casos/:idproyecto/integrantes", async (req, res) => {
   //agregar
   try {
     let data = { ...req.body, ...req.params };
-    let eventos = new EventosModule(data);
+    let integrantes = new IntegrantesModule(data);
     let pool = await sql.connect(config);
     let response = await pool.request()
-      .input("fecha", sql.Date, eventos.fecha)
-      .input("title", sql.VarChar, eventos.title)
-      .input("descripcion", sql.VarChar(sql.MAX), eventos.descripcion)
-      .input("usuario", sql.Int, eventos.usuario)
-      .input("fechaCreado", sql.VarChar, eventos.fechaCreado)
-      .query(eventos.querySave);
+      .input('idproyecto', sql.Int, data.idproyecto)  
+      .input("nombre", sql.VarChar, integrantes.nombre)
+      .input("correo", sql.VarChar, integrantes.correo)
+      .query(integrantes.querySave);
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
     }
@@ -61,19 +64,17 @@ router.post("/eventos", async (req, res) => {
   }
 });
 
-router.put("/eventos/:id", async (req, res) => { //modificar
+router.put("/casos/:idproyecto/integrantes/:id", async (req, res) => { //modificar
   try {
     let data = { ...req.body, ...req.body };
-    let eventos = new EventosModule(data);
+    let integrantes = new IntegrantesModule(data);
     let pool = await sql.connect(config) 
     let response = await pool.request()
-      .input('id',sql.Int,eventos.id)
-      .input("fecha", sql.Date, eventos.fecha)
-      .input("title", sql.VarChar, eventos.title)
-      .input("descripcion", sql.VarChar(sql.MAX), eventos.descripcion)
-      .input("usuario", sql.Int,eventos.usuario)
-      .input("fechaCreado", sql.VarChar, eventos.fechaCreado)
-      .query(eventos.queryUpdate);
+      .input('id',sql.Int,integrantes.id)
+      .input('idproyecto', sql.Int, data.idproyecto)  
+      .input("nombre", sql.VarChar, integrantes.nombre)
+      .input("correo", sql.VarChar, integrantes.correo)
+      .query(integrantes.queryUpdate);
       if (response.rowsAffected <= 0) {
         throw "No existe datos con esos parámetros";
       }
@@ -84,14 +85,15 @@ router.put("/eventos/:id", async (req, res) => { //modificar
   }
 });
 
-router.delete('/eventos/:id',async(req,res)=>{ //eliminar
+router.delete('/casos/:idproyecto/integrantes/:id',async(req,res)=>{ //eliminar
   try {
       let data = {...req.body,...req.params};
-      let eventos = new EventosModule(data);
+      let integrantes = new IntegrantesModule(data);
       let pool =  await sql.connect(config);
       let response = await pool.request()
-          .input('id',sql.Int,eventos.id)
-          .query(eventos.queryDelete);
+          .input('idproyecto',sql.Int,integrantes.idproyecto)
+          .input('id',sql.Int,integrantes.id)
+          .query(integrantes.queryDelete);
       res.status(200).json({message:"Datos han sido Eliminados"})
   } catch (error) {
       console.error(`Hay clavo tio ${error}`)

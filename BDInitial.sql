@@ -16,14 +16,47 @@ CREATE TABLE Post(
 	fechaCreado datetime, 
 	proyecto VARCHAR(100)
 );
-
 CREATE TABLE Evento(
 	id int PRIMARY KEY IDENTITY(1,1),
-	fecha date,
-	title varchar(50),
+	titulo varchar(100),
 	descripcion varchar(max),
+	horaInicio time,
+	duracion time,
+	fecha date,
+	semana varchar(20),
+	lugar int,
 	usuarioCreador int,
-	fechaCreado datetime
+	fechaCreado datetime,
+);
+
+CREATE TABLE SitioEvento(
+	id int PRIMARY KEY IDENTITY(1,1),
+	evento int,
+	lugarSede int,
+	sede int,
+)
+
+CREATE TABLE OrganizadorEvento(
+	id int PRIMARY KEY IDENTITY(1,1),
+	evento int,
+	organizador int,
+	sede int,
+)
+
+CREATE TABLE LugarSede (
+	id int PRIMARY KEY IDENTITY(1,1),
+	nombre varchar(100),
+  sede int,
+);
+
+CREATE TABLE Sede (
+		id int PRIMARY KEY IDENTITY(1,1),
+		nombre varchar(100),
+);
+
+CREATE TABLE Organizador (
+	id int PRIMARY KEY IDENTITY(1,1),
+	nombre varchar(100)
 );
 
 CREATE TABLE Postulacion(
