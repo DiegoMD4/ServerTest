@@ -4,6 +4,25 @@ const config = require("../lib/config");
 const sql = require("mssql");
 const EventosModule = require("../class/Evento");
 
+
+
+router.get("/calendario/eventos", async (req, res) => { //get all
+  try {
+    let data = { ...req.body, ...req.params };
+    let eventos = new EventosModule(data);
+    let pool = await sql.connect(config);
+    let response = await pool.request().query(eventos.queryGetCalendarEvents);
+    if (response.rowsAffected <= 0) {
+      throw "No existe datos con esos parámetros";
+    }
+    res.status(200).json(...response.recordsets);
+  } catch (error) {
+    console.error(`Hay clavo tio ${error}`);
+    res.status(300).json({ error: `Hay clavo tio ${error}` });
+  }
+});
+
+
 router.get("/eventos", async (req, res) => { //get all
   try {
     let data = { ...req.body, ...req.params };
@@ -13,10 +32,10 @@ router.get("/eventos", async (req, res) => { //get all
     if (response.rowsAffected <= 0) {
       throw "No existe datos con esos parámetros";
     }
-    res.status(200).json(response.recordsets);
+    res.status(200).json(...response.recordsets);
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
-    res.status(400).json({ error: `Hay clavo tio ${error}` });
+    res.status(300).json({ error: `Hay clavo tio ${error}` });
   }
 });
 
@@ -34,21 +53,24 @@ router.get("/eventos/:id", async (req, res) => {// get by id
     res.status(200).json(response.recordsets);
   } catch (error) {
     console.error(`Hay clavo tio ${e}`);
-    res.status(400).json({ error: `Hay clavo tio ${e}` });
+    res.status(300).json({ error: `Hay clavo tio ${e}` });
   }
 });
 
 router.post("/eventos", async (req, res) => {
-  //agregar
   try {
     let data = { ...req.body, ...req.params };
+    console.log(data)
     let eventos = new EventosModule(data);
     let pool = await sql.connect(config);
     let response = await pool.request()
-      .input("fecha", sql.Date, eventos.fecha)
-      .input("title", sql.VarChar, eventos.title)
+      .input("fechaInicio", sql.DateTime, eventos.fechaInicio)
+      .input("fechaFin", sql.DateTime, eventos.fechaFin)
+      .input("titulo", sql.VarChar, eventos.titulo)
       .input("descripcion", sql.VarChar(sql.MAX), eventos.descripcion)
-      .input("usuario", sql.Int, eventos.usuario)
+      .input("semana", sql.VarChar, eventos.semana)
+      .input("sede", sql.Int, eventos.sede)
+      .input("usuarioCreador", sql.Int, eventos.usuarioCreador)
       .input("fechaCreado", sql.VarChar, eventos.fechaCreado)
       .query(eventos.querySave);
     if (response.rowsAffected <= 0) {
@@ -57,7 +79,7 @@ router.post("/eventos", async (req, res) => {
     res.status(200).json({message: "Agregado correctamente",data:data});
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
-    res.status(400).json({ error: `Hay clavo tio ${error}` });
+    res.status(300).json({ error: `Hay clavo tio ${error}` });
   }
 });
 
@@ -68,11 +90,12 @@ router.put("/eventos/:id", async (req, res) => { //modificar
     let pool = await sql.connect(config) 
     let response = await pool.request()
       .input('id',sql.Int,eventos.id)
-      .input("fecha", sql.Date, eventos.fecha)
-      .input("title", sql.VarChar, eventos.title)
+      .input("fechaInicio", sql.DateTime, eventos.fechaInicio)
+      .input("fechaFin", sql.DateTime, eventos.fechaFin)
+      .input("titulo", sql.VarChar, eventos.titulo)
       .input("descripcion", sql.VarChar(sql.MAX), eventos.descripcion)
-      .input("usuario", sql.Int,eventos.usuario)
-      .input("fechaCreado", sql.VarChar, eventos.fechaCreado)
+      .input("semana", sql.VarChar, eventos.semana)
+      .input("sede", sql.Int, eventos.sede)
       .query(eventos.queryUpdate);
       if (response.rowsAffected <= 0) {
         throw "No existe datos con esos parámetros";
@@ -80,7 +103,7 @@ router.put("/eventos/:id", async (req, res) => { //modificar
     res.status(200).json({message: "ok",data:data});
   } catch (error) {
     console.error(`Hay clavo tio ${error}`);
-    res.status(400).json({ error: `Hay clavo tio ${error}` });
+    res.status(300).json({ error: `Hay clavo tio ${error}` });
   }
 });
 
@@ -95,7 +118,7 @@ router.delete('/eventos/:id',async(req,res)=>{ //eliminar
       res.status(200).json({message:"Datos han sido Eliminados"})
   } catch (error) {
       console.error(`Hay clavo tio ${error}`)
-      res.status(400).json({error:`Hay clavo tio ${error}`})
+      res.status(300).json({error:`Hay clavo tio ${error}`})
   }
 })
 

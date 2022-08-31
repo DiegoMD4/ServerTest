@@ -5,14 +5,16 @@ module.exports = class Integrantes{
         this.nombre = data.nombre || '';
         this.correo = data.correo || '';
         this.proyecto= data.proyecto || '';
-
-        this.queryGetFirst10=`
-        SELECT TOP 10
-            id
-            ,nombre
-            ,correo
-            ,proyecto
-            FROM Integrantes`
+        this.idproyecto= data.idproyecto || '';
+        this.queryGet=`
+        SELECT 
+        id
+        ,nombre
+        ,correo
+        ,proyecto
+        ,idproyecto
+        FROM Integrantes 
+        WHERE idproyecto = @idproyecto`
 
         this.queryGetById=` SELECT 
             id
@@ -23,10 +25,10 @@ module.exports = class Integrantes{
             WHERE id=@id
             ORDER BY proyecto;`
         
-        this.queryInsert=`INSERT INTO ${this.db} 
-        (nombre ,correo, proyecto) 
+        this.querySave=`INSERT INTO ${this.db} 
+        (nombre ,correo, idproyecto) 
         VALUES 
-        (@nombre,@correo, @proyecto);`
+        (@nombre,@correo, @idproyecto);`
 
        
             
