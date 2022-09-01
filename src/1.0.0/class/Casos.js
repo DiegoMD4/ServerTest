@@ -22,13 +22,11 @@ module.exports = class Casos{
         FROM Post P
         WHERE tipo = 2`//listo
 
-        this.queryGetById=` SELECT 
-        SELECT 
+        this.queryGetById=` SELECT  
         id
         ,tipo
         ,titulo
         ,cuerpo
-        ,imagenEncabezado
         ,usuarioCreador
         ,fechaCreado
         FROM Post P
@@ -37,10 +35,10 @@ module.exports = class Casos{
         ORDER BY fechaCreado;` //listo
         
         this.queryInsert=`INSERT INTO ${this.db} 
-        (tipo ,titulo,cuerpo,usuarioCreador,fechaCreado) 
+        (tipo ,titulo,cuerpo,usuarioCreador,fechaCreado)
+        OUTPUT INSERTED.id 
         VALUES 
-        (2 ,@titulo,@cuerpo,@usuarioCreador,@fechaCreado);
-        SELECT @@identity 'id'
+        (2 ,@titulo,@cuerpo,@usuarioCreador,GETDATE());
         `//listo
 
         this.queryUpdate=`UPDATE ${this.db} SET 
