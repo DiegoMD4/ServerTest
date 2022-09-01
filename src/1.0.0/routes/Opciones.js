@@ -2,7 +2,7 @@ const express= require('express');
 const router= express.Router();
 const config= require('../lib/config');
 const sql = require('mssql');
-const Opciones = require('../class/Opciones');
+const Opciones = require('../class/opciones');
 
 
 router.get('/opciones/lugarsede',async(req, res)=>{ // get all
