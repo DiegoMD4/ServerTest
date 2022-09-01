@@ -30,7 +30,7 @@ router.get('/casos/:id',async(req, res)=>{ //get by id
         //let integrantes = new IntegrantesModule(data);
         let pool = await sql.connect(config);
         let response = await pool.request()
-        .input('id', sql.Int, casos.queryGetById)
+        .input('id', sql.Int, casos.id)
         .query(casos.queryGetById);
 
         if(response.rowsAffected <= 0)
@@ -57,7 +57,7 @@ router.post('/casos',async(req, res)=>{ //agregar
             .query(casos.queryInsert);
         if (response.rowsAffected <= 0 && result.rowsAffected <= 0)
         { throw "No existe datos con esos parámetros"};
-        res.status(200).json({message:"Registrado",data:data})
+        res.status(200).json(response.recordset[0])
     } catch (error) {
         console.error(`Hay clavo tio ${error}`)
         res.status(300).json({error:`Hay clavo tio ${error}`})

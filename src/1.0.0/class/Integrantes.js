@@ -26,7 +26,8 @@ module.exports = class Integrantes{
             ORDER BY proyecto;`
         
         this.querySave=`INSERT INTO ${this.db} 
-        (nombre ,correo, idproyecto) 
+        (nombre ,correo, idproyecto)
+        OUTPUT Inserted.id  
         VALUES 
         (@nombre,@correo, @idproyecto);`
 

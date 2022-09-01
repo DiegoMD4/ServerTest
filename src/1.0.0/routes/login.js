@@ -10,12 +10,11 @@ router.post('/login',async(req,res)=>{
         let data = {...req.body,...req.params};
         let pool =  await sql.connect(config);
         let hashed =  crypt.encrypt(data.contrasena);
-        console.log(hashed);
+
         let response = await pool.request()
         .input('usuario',sql.VarChar,data.usuario)
         .input('contrasena',sql.VarChar,hashed)
-        .query(`
-        SELECT usuario, correo, nombre FROM usuario WHERE usuario = @usuario AND contrasena = @contrasena`);
+        .query(`SELECT usuario, correo, nombre FROM usuario WHERE usuario = @usuario AND contrasena = @contrasena`);
 
         if (response.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
         res.status(200).json(response.recordset[0])
