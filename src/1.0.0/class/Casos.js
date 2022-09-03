@@ -40,7 +40,7 @@ module.exports = class Casos{
         (tipo ,titulo,cuerpo,usuarioCreador,fechaCreado, seccionCasos)
         OUTPUT INSERTED.id 
         VALUES 
-        (2 ,@titulo,@cuerpo,@usuarioCreador,GETDATE(), "seccionCasos);
+        (2 ,@titulo,@cuerpo,@usuarioCreador,GETDATE(), @seccionCasos);
         `//listo
 
         this.queryUpdate=`UPDATE ${this.db} SET 

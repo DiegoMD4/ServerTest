@@ -53,7 +53,7 @@ router.post('/casos',async(req, res)=>{ //agregar
             .input('tipo',sql.TinyInt,casos.tipo)
             .input('imagenEncabezado',sql.VarChar, casos.imagenEncabezado)
             .input('usuarioCreador',sql.Int,casos.usuarioCreador)
-            .input('seccionCasos',sql.VarChar, casos.seccionCasos)
+            .input('seccionCasos',sql.VarChar(250), casos.seccionCasos)
             .query(casos.queryInsert);
         if (response.rowsAffected <= 0 && result.rowsAffected <= 0)
         { throw "No existe datos con esos parámetros"};
@@ -76,7 +76,7 @@ router.put('/casos',async(req, res)=>{ //Modificar
             .input('tipo',sql.TinyInt,casos.tipo)
             .input('imagenEncabezado',sql.VarChar, casos.imagenEncabezado)
             .input('usuarioCreador',sql.Int,casos.usuarioCreador)
-            .input('seccionCasos',sql.VarChar, casos.seccionCasos)
+            .input('seccionCasos',sql.VarChar(250), casos.seccionCasos)
             .query(casos.queryInsert);
         if (response.rowsAffected <= 0 && result.rowsAffected <= 0)
         { throw "No existe datos con esos parámetros"};
