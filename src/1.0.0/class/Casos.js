@@ -19,6 +19,7 @@ module.exports = class Casos{
         ,imagenEncabezado
         ,usuarioCreador
         ,fechaCreado
+        ,seccionCasos
         FROM Post P
         WHERE tipo = 2`//listo
 
@@ -29,29 +30,32 @@ module.exports = class Casos{
         ,cuerpo
         ,usuarioCreador
         ,fechaCreado
+        ,seccionCasos
         FROM Post P
         WHERE tipo = 2
         AND id = @id
         ORDER BY fechaCreado;` //listo
         
         this.queryInsert=`INSERT INTO ${this.db} 
-        (tipo ,titulo,cuerpo,usuarioCreador,fechaCreado)
+        (tipo ,titulo,cuerpo,usuarioCreador,fechaCreado, seccionCasos)
         OUTPUT INSERTED.id 
         VALUES 
-        (2 ,@titulo,@cuerpo,@usuarioCreador,GETDATE());
+        (2 ,@titulo,@cuerpo,@usuarioCreador,GETDATE(), "seccionCasos);
         `//listo
 
         this.queryUpdate=`UPDATE ${this.db} SET 
             titulo=@titulo,
             cuerpo=@cuerpo,
-            proyecto = @proyecto
+            proyecto = @proyecto,
+            seccionCasos = @seccionCasos
             WHERE id=@id AND tipo=2;`
         this.queryDelete = `DELETE FROM ${this.db} WHERE id=@id AND tipo = 2`//LISTO
 
         this.queryUpdateIntegrantes=`UPDATE dbo.Integrantes SET 
         nombre = @nombre,
         correo = @correo,
-        proyecto = @proyecto
+        proyecto = @proyecto,
+        seccionCasos = @seccionCasos
         WHERE id = @id_ ;`
     }
 }

@@ -9,7 +9,7 @@ router.get('/casos',async(req, res)=>{ // get all
     try {
         let data = {...req.body,...req.params};
         let casos = new CasosModule(data);
-        let integrantes = new IntegrantesModule(data);
+      
         let pool = await sql.connect(config);
         let response = await pool.request().query(casos.queryGetFirst10);
 
@@ -27,7 +27,6 @@ router.get('/casos/:id',async(req, res)=>{ //get by id
     try {
         let data = {...req.body,...req.params};
         let casos = new CasosModule(data);
-        //let integrantes = new IntegrantesModule(data);
         let pool = await sql.connect(config);
         let response = await pool.request()
         .input('id', sql.Int, casos.id)
@@ -54,6 +53,7 @@ router.post('/casos',async(req, res)=>{ //agregar
             .input('tipo',sql.TinyInt,casos.tipo)
             .input('imagenEncabezado',sql.VarChar, casos.imagenEncabezado)
             .input('usuarioCreador',sql.Int,casos.usuarioCreador)
+            .input('seccionCasos',sql.VarChar, casos.seccionCasos)
             .query(casos.queryInsert);
         if (response.rowsAffected <= 0 && result.rowsAffected <= 0)
         { throw "No existe datos con esos parámetros"};
@@ -64,7 +64,7 @@ router.post('/casos',async(req, res)=>{ //agregar
     }
 })
 
-router.put('/casos',async(req, res)=>{ //agregar
+router.put('/casos',async(req, res)=>{ //Modificar
     try {
         let data = {...req.body,...req.params};
         let casos = new CasosModule(data);
@@ -76,6 +76,7 @@ router.put('/casos',async(req, res)=>{ //agregar
             .input('tipo',sql.TinyInt,casos.tipo)
             .input('imagenEncabezado',sql.VarChar, casos.imagenEncabezado)
             .input('usuarioCreador',sql.Int,casos.usuarioCreador)
+            .input('seccionCasos',sql.VarChar, casos.seccionCasos)
             .query(casos.queryInsert);
         if (response.rowsAffected <= 0 && result.rowsAffected <= 0)
         { throw "No existe datos con esos parámetros"};

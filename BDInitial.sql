@@ -14,7 +14,8 @@ CREATE TABLE Post(
 	cuerpo ntext,
 	usuarioCreador int,
 	fechaCreado datetime, 
-	proyecto VARCHAR(100)
+	proyecto VARCHAR(100),
+	seccionCasos VARCHAR
 );
 CREATE TABLE Evento(
 	id int PRIMARY KEY IDENTITY(1,1),
