@@ -119,3 +119,33 @@ CREATE TABLE Integrantes (
   [proyecto] nvarchar(255) 
   
 );
+
+--tablas nuevas agregadas
+CREATE TABLE [paginaInicio] (
+  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [titulo] varchar(250),
+  [subtitulo] varchar(250)
+)
+GO
+
+CREATE TABLE [carousel] (
+  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [titulo] varchar(250),
+  [seccion] varchar(100),
+  [detalles] varchar(250)
+)
+GO
+
+CREATE TABLE [quienesSomos] (
+  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [descripcion] varchar(300)
+)
+GO
+
+CREATE TABLE [nuestroEquipo] (
+  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [integrante] varchar(250),
+  [descripcion] varchar(300),
+  [subtitulo] varchar(250)
+)
+GO
