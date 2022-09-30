@@ -5,36 +5,6 @@ const sql = require("mssql");
 const InicioModule = require("../class/Inicio");
 
 
-router.post("/inicio", async (req, res) => { //agregar
-  try {
-    let data = { ...req.body, ...req.params };
-    let inicio = new InicioModule(data);
-    let pool = await sql.connect(config);
-    let result = await pool.request()
-    .input('titulo_inicio',sql.VarChar(250),inicio.titulo_inicio)
-    .input('subtitulo_inicio',sql.VarChar(250),inicio.subtitulo_inicio)
-    .input('imagen',sql.VarChar(250),inicio.imagen)
-
-    .input('titulo_carousel',sql.VarChar(250),inicio.titulo_carousel)
-    .input('seccion_carousel',sql.VarChar(100),inicio.seccion_carousel)
-    .input('detalles_carousel',sql.VarChar(300),inicio.detalles_carousel)
-
-    .input('descripcion_quienessomos',sql.VarChar(250),inicio.descripcion_quienessomos)
-
-    .input('integrante',sql.VarChar(250),inicio.integrante)
-    .input('descripcion_nuestroequipo',sql.VarChar(300),inicio.descripcion_nuestroequipo)
-    .input('subtitulo_nuestroequipo',sql.VarChar(250),inicio.subtitulo_nuestroequipo)
-    .query(inicio.querySave)
-
-    if (result.rowsAffected <= 0){ throw "No existe datos con esos parámetros"};
-    res.status(200).json({message:"Usuario creado correctamente"});
-
-  } catch (error) {
-    console.error(error)
-    res.status(300).json({error:`Hay clavo tio ${error}`})
-  }
-});
-
 router.get("/inicio", async (req, res) => {// get all
   try {
     let data = { ...req.body, ...req.params };
@@ -57,18 +27,27 @@ router.put('/inicio/:id', async(req, res)=>{ //modificar
         let inicio = new InicioModule(data);
         let pool =  await sql.connect(config);
 
-        let response = await pool.request()
+         await pool.request()
         .input('id', sql.Int,inicio.id)
-        .input('titulo_inicio',sql.VarChar(250),inicio.titulo_inicio)
-        .input('subtitulo_inicio',sql.VarChar(250),inicio.subtitulo_inicio)
-        .input('imagen',sql.VarChar(250),inicio.imagen)
-        .input('titulo_carousel',sql.VarChar(250),inicio.titulo_carousel)
-        .input('seccion_carousel',sql.VarChar(100),inicio.seccion_carousel)
-        .input('detalles_carousel',sql.VarChar(300),inicio.detalles_carousel)
-        .input('descripcion_quienessomos',sql.VarChar(250),inicio.descripcion_quienessomos)
-        .input('integrante',sql.VarChar(250),inicio.integrante)
-        .input('descripcion_nuestroequipo',sql.VarChar(300),inicio.descripcion_nuestroequipo)
-        .input('subtitulo_nuestroequipo',sql.VarChar(250),inicio.subtitulo_nuestroequipo)
+        .input('titulo_inicio',sql.VarChar(sql.MAX),inicio.titulo_inicio)
+        .input('subtitulo_inicio',sql.VarChar(sql.MAX),inicio.subtitulo_inicio)
+        .input('imagen',sql.VarChar(sql.MAX),inicio.imagen)
+
+        .input('titulo_carousel',sql.VarChar(sql.MAX),inicio.titulo_carousel
+        .join().split(",").map(i => ' ' + i + '').join())
+        .input('seccion_carousel',sql.VarChar(sql.MAX),inicio.seccion_carousel
+        .join().split(",").map(i => ' ' + i + '').join())
+        .input('detalles_carousel',sql.VarChar(sql.MAX),inicio.detalles_carousel
+        .join().split(",").map(i => ' ' + i + '').join())
+
+        .input('descripcion_quienessomos',sql.VarChar(sql.MAX),inicio.descripcion_quienessomos)
+
+        .input('integrante',sql.VarChar(sql.MAX),inicio.integrante
+        .join().split(",").map(i => ' ' + i + '').join())
+        .input('descripcion_nuestroequipo',sql.VarChar(sql.MAX),inicio.descripcion_nuestroequipo
+        .join().split(",").map(i => ' ' + i + '').join())
+        .input('subtitulo_nuestroequipo',sql.VarChar(sql.MAX),inicio.subtitulo_nuestroequipo
+        .join().split(",").map(i => ' ' + i + '').join())
         .query(inicio.queryUpdate)
         res.status(200).json({data:data,message:"Modificado exitosamente"})
 
