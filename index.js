@@ -9,7 +9,7 @@ app.set('json spaces',2);
 app.use(express.json());
 app.use(cors());
 
-app.use('/1.0.0',require('./src/1.0.0/routes/post')) // Endpoint para el modulo de recursos
+app.use('/1.0.0',require('./src/1.0.0/routes/post')) // Endpoint para el modulo de recursos&Blog
 app.use('/1.0.0',require('./src/1.0.0/routes/Casos'))// Endpoint para el modulo de casos
 app.use('/1.0.0',require('./src/1.0.0/routes/Usuario'))
 app.use('/1.0.0',require('./src/1.0.0/routes/Postulacion'))
