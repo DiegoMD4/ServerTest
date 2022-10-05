@@ -121,31 +121,18 @@ CREATE TABLE Integrantes (
 );
 
 --tablas nuevas agregadas
-CREATE TABLE [paginaInicio] (
+CREATE TABLE [Inicio] (
   [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [titulo] varchar(250),
-  [subtitulo] varchar(250)
-)
-GO
-
-CREATE TABLE [carousel] (
-  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [titulo] varchar(250),
-  [seccion] varchar(100),
-  [detalles] varchar(250)
-)
-GO
-
-CREATE TABLE [quienesSomos] (
-  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [descripcion] varchar(300)
-)
-GO
-
-CREATE TABLE [nuestroEquipo] (
-  [id] integer PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  [titulo_inicio] varchar(250),
+  [subtitulo_inicio] varchar(250),
+  [imagen] varchar(250),
+  [titulo_carousel] varchar(250),
+  [seccion_carousel] varchar(100),
+  [detalles_carousel] varchar(250),
+  [descripcion_quienessomos] varchar(300),
   [integrante] varchar(250),
-  [descripcion] varchar(300),
-  [subtitulo] varchar(250)
+  [descripcion_nuestroequipo] varchar(300),
+  [subtitulo_nuestroequipo] varchar(250)
 )
 GO
+
