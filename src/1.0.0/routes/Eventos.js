@@ -3,7 +3,7 @@ const router = express.Router();
 const config = require("../lib/config");
 const sql = require("mssql");
 const EventosModule = require("../class/Evento");
-//eliminar este modulo
+
 router.get("/eventos", async (req, res) => { //get all
   try {
     let data = { ...req.body, ...req.params };
